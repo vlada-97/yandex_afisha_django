@@ -2,6 +2,14 @@ from django.contrib import admin
 
 from .models import Place, Image
 
+from django.contrib import admin
+
+from .models import Place, Image
+
+
+class ImageInline(admin.TabularInline):
+    model = Image
+
 
 @admin.register(Place)
 class AdminPlace(admin.ModelAdmin):
@@ -10,6 +18,9 @@ class AdminPlace(admin.ModelAdmin):
     ]
     list_display = [
         "title",
+    ]
+    inlines = [
+        ImageInline,
     ]
 
 
@@ -23,4 +34,6 @@ class AdminImage(admin.ModelAdmin):
         "position",
         "place",
     ]
-    list_filter = ["place"]
+    list_filter = [
+        "place",
+    ]
