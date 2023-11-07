@@ -1,11 +1,9 @@
 from django.contrib import admin
 
 from .models import Place, Image
-
-from django.contrib import admin
-
-from .models import Place, Image
 from django.utils.html import format_html
+from adminsortable2.admin import SortableAdminMixin
+from adminsortable2.admin import SortableAdminBase, SortableTabularInline
 
 
 def get_html_preview(image):
@@ -16,7 +14,7 @@ def get_html_preview(image):
     )
 
 
-class ImageInline(admin.TabularInline):
+class ImageInline(SortableTabularInline):
     model = Image
 
     readonly_fields = [
@@ -31,7 +29,7 @@ class ImageInline(admin.TabularInline):
 
 
 @admin.register(Place)
-class AdminPlace(admin.ModelAdmin):
+class AdminPlace(SortableAdminBase, admin.ModelAdmin):
     search_fields = [
         "title",
     ]
@@ -60,7 +58,7 @@ class AdminPlace(admin.ModelAdmin):
 
 
 @admin.register(Image)
-class AdminImage(admin.ModelAdmin):
+class AdminImage(SortableAdminMixin, admin.ModelAdmin):
     fields = (
         "place",
         "image",
