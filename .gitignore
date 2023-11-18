@@ -1,6 +1,6 @@
 # My ignored files and directories
 media/
-.gitbook
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
