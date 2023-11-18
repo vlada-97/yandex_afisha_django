@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from .models import Place
@@ -20,7 +20,7 @@ def index(request):
         serialized_places.append(place)
 
     collection = {"type": "FeatureCollection", "features": serialized_places}
-    return render(request, "index.html", context={"places": collection})
+    return render(request, "places/index.html", context={"places": collection})
 
 
 def place_detail(request, place_id):

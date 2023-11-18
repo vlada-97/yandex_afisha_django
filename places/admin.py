@@ -1,9 +1,12 @@
+from adminsortable2.admin import (
+    SortableAdminBase,
+    SortableAdminMixin,
+    SortableTabularInline,
+)
 from django.contrib import admin
-
-from .models import Place, Image
 from django.utils.html import format_html
-from adminsortable2.admin import SortableAdminMixin
-from adminsortable2.admin import SortableAdminBase, SortableTabularInline
+
+from .models import Image, Place
 
 
 def get_html_preview(image):

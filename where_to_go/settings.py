@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 from environs import Env
 
 env = Env()
@@ -13,7 +14,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 
 DEBUG = env.bool("DEBUG", "true")
 
-ALLOWED_HOSTS=["127.0.0.1", ".pythonanywhere.com"]
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", [])
 
 
 # Application definition
@@ -42,7 +43,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "where_to_go.urls"
 
-STATIC_ROOT = os.path.join(BASE_DIR, "templates")
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
@@ -114,7 +114,6 @@ USE_TZ = True
 STATIC_URL = "static/"
 MEDIA_URL = "media/"
 
-# STATIC_ROOT = Path.joinpath(BASE_DIR, 'static')
 MEDIA_ROOT = "media/"
 
 
