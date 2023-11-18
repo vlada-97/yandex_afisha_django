@@ -11,7 +11,7 @@ from django.core.management.base import BaseCommand, CommandError
 from places.models import Image, Place
 
 
-def json_url(raw_url):
+def get_json_url(raw_url):
     url = urlparse(raw_url)
     if all((url.scheme, url.netloc)):
         return raw_url
@@ -25,8 +25,8 @@ def create_place(json_place):
             lat=json_place["coordinates"]["lat"],
             defaults={
                 "title": json_place["title"],
-                "description_short": json_place.get("description_short", ""),
-                "description_long": json_place.get("description_long", ""),
+                "short_description": json_place.get("short_description", ""),
+                "long_description": json_place.get("long_description", ""),
             },
         )
     except KeyError:
@@ -66,7 +66,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             "--url",
-            type=json_url,
+            type=get_json_url,
             help="URL to JSON file",
         )
         parser.add_argument(
