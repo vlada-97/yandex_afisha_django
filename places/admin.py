@@ -1,22 +1,9 @@
-from adminsortable2.admin import (
-    SortableAdminBase,
-    SortableAdminMixin,
-    SortableTabularInline,
-)
+from adminsortable2.admin import (SortableAdminBase, SortableAdminMixin,
+                                  SortableTabularInline)
 from django.contrib import admin
 from django.utils.html import format_html
 
 from .models import Image, Place
-
-
-from django.contrib import admin
-from django.utils.html import format_html
-from adminsortable2.admin import (
-    SortableAdminBase,
-    SortableAdminMixin,
-    SortableTabularInline,
-)
-from .models import Place, Image
 
 
 def get_html_preview(image):
@@ -41,31 +28,27 @@ class ImageInline(SortableTabularInline):
 
 @admin.register(Place)
 class AdminPlace(SortableAdminBase, admin.ModelAdmin):
-    search_fields = [
-        "title",
-    ]
-    list_display = [
-        "title",
-        "get_image_preview",
-    ]
-    inlines = [
-        ImageInline,
-    ]
+    search_fields = ["title"]
+    list_display = ["title", "get_image_preview"]
+    inlines = [ImageInline]
 
     def get_image_preview(self, obj):
-        return self.get_html_preview(obj.images.first())
+        first_image = obj.images.first() 
+        return self.get_html_preview_readonly(first_image) if first_image else ""
 
     get_image_preview.short_description = "Фото превью"
 
     def get_html_preview_readonly(self, obj):
-        return self.get_html_preview(obj)
+        return get_html_preview(obj)
 
     get_html_preview_readonly.short_description = "Фото превью"
     get_html_preview_readonly.readonly = True
 
     readonly_fields = ["get_html_preview_readonly"]
 
-    get_image_preview.admin_order_field = "images__image"
+    get_image_preview.admin_order_field = "images__image" 
+
+
 
 
 @admin.register(Image)
