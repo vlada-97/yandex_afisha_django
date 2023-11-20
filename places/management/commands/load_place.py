@@ -84,7 +84,7 @@ class Command(BaseCommand):
             json_path = Path.joinpath(settings.BASE_DIR, options["file"])
             if not Path.exists(json_path):
                 raise CommandError("File not found!")
-            with open(json_path, "r") as file:
+            with open(json_path, "r", encoding="utf-8") as file:
                 try:
                     place_attributes = json.load(file)
                 except json.JSONDecodeError:
