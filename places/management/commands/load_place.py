@@ -25,8 +25,8 @@ def create_place(json_place):
             lat=json_place["coordinates"]["lat"],
             defaults={
                 "title": json_place["title"],
-                "short_description": json_place.get("short_description", ""),
-                "long_description": json_place.get("long_description", ""),
+                "short_description": json_place.get("description_short", ""),
+                "long_description": json_place.get("description_long", ""),
             },
         )
     except KeyError:
