@@ -74,6 +74,11 @@ class Command(BaseCommand):
             action="store_true",
             help="Skip uploading images",
         )
+        parser.add_argument(
+            "--add_images",
+            action="store_true",
+            help="Upload img to existing places",
+        )
 
     def handle(self, *args, **options):
         if options["file"] and options["url"]:
@@ -93,6 +98,8 @@ class Command(BaseCommand):
             response = requests.get(options["url"])
             response.raise_for_status()
             place_attributes = response.json()
+        elif options["add_images"]:
+            add_images(self, place_attributes, place)
         else:
             raise CommandError("No action requested. Add argument!")
 
