@@ -1,8 +1,5 @@
-from adminsortable2.admin import (
-    SortableAdminBase,
-    SortableAdminMixin,
-    SortableTabularInline,
-)
+from adminsortable2.admin import (SortableAdminBase, SortableAdminMixin,
+                                  SortableTabularInline)
 from django.contrib import admin
 from django.utils.html import format_html
 
@@ -11,7 +8,9 @@ from .models import Image, Place
 
 def get_html_preview(image):
     return format_html(
-        '<img src="{url}" height={height}/>', url=image.image.url, height=max
+        "<img src='{url}' style='max-height: 200px; max-width: 200px'>",
+        url=image.image.url,
+        height=max,
     )
 
 

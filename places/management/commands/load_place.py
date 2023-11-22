@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 
 import requests
 from django.conf import settings
+from django.core.exceptions import MultipleObjectsReturned
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand, CommandError
 
@@ -18,20 +19,24 @@ def get_json_url(raw_url):
     raise CommandError("Invalid URL")
 
 
-def create_place(json_place):
+def create_place(raw_place_attributes):
     try:
         place, created = Place.objects.get_or_create(
-            lng=json_place["coordinates"]["lng"],
-            lat=json_place["coordinates"]["lat"],
+            lng=raw_place_attributes["coordinates"]["lng"],
+            lat=raw_place_attributes["coordinates"]["lat"],
             defaults={
-                "title": json_place["title"],
-                "short_description": json_place.get("description_short", ""),
-                "long_description": json_place.get("description_long", ""),
+                "title": raw_place_attributes["title"],
+                "short_description": raw_place_attributes.get("description_short", ""),
+                "long_description": raw_place_attributes.get("description_long", ""),
             },
         )
+        return place, created
     except KeyError:
         raise CommandError("No required fields found! Use JSON format from README.md!")
-    return place, created
+    except MultipleObjectsReturned:
+        print("Multiple objects returned for the given coordinates.")
+    except Place.DoesNotExist:
+        print("Place does not exist for the given coordinates.")
 
 
 def add_images(obj, place_attributes, place):
@@ -96,15 +101,17 @@ class Command(BaseCommand):
         else:
             raise CommandError("No action requested. Add argument!")
 
-        place, created = create_place(place_attributes)
+        raw_place_attributes = place_attributes
+
+        place, created = create_place(raw_place_attributes)
         if not created:
             self.stdout.write(
-                self.style.WARNING(f'{place_attributes["title"]} already exists!')
+                self.style.WARNING(f'{raw_place_attributes["title"]} already exists!')
             )
             return
 
         self.stdout.write(
-            self.style.SUCCESS(f'Place {place_attributes["title"]} created!')
+            self.style.SUCCESS(f'Place {raw_place_attributes["title"]} created!')
         )
         if not options["skip_imgs"]:
-            add_images(self, place_attributes, place)
+            add_images(self, raw_place_attributes, place)
