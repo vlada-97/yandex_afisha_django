@@ -40,9 +40,11 @@ python manage.py runserver
   Чтобы их определить, создайте файл .env рядом с manage.py и запишите туда данные в таком формате: ПЕРЕМЕННАЯ=значение.
 ```python
 DEBUG — режим отладки. Поставьте True, чтобы увидеть отладочную информацию в случае ошибки.
-SECRET_KEY — [секретный ключ](https://docs.djangoproject.com/en/dev/ref/settings/#secret-key) проекта Django 
-ALLOWED_HOSTS — список строк, представляющих имена хостов/доменов, которые может обслуживать этот сайт Django. [Документация](https://docs.djangoproject.com/en/4.2/ref/settings.#allowed-hosts)
+SECRET_KEY — секретный ключ проекта установки Django, должен быть уникальным
+ALLOWED_HOSTS — список строк, представляющих имена хостов/доменов, которые может обслуживать этот сайт Django. 
 ```
+
+[Документация](https://docs.djangoproject.com/en/4.2/ref/settings/) 
 
 ## Источники данных
 
