@@ -1,6 +1,6 @@
 # My ignored files and directories
 media/
-
+admin/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

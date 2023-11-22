@@ -33,7 +33,7 @@ class AdminPlace(SortableAdminBase, admin.ModelAdmin):
     inlines = [ImageInline]
 
     def get_image_preview(self, obj):
-        first_image = obj.images.first() 
+        first_image = obj.images.first()
         return self.get_html_preview_readonly(first_image) if first_image else ""
 
     get_image_preview.short_description = "Фото превью"
@@ -46,9 +46,7 @@ class AdminPlace(SortableAdminBase, admin.ModelAdmin):
 
     readonly_fields = ["get_html_preview_readonly"]
 
-    get_image_preview.admin_order_field = "images__image" 
-
-
+    get_image_preview.admin_order_field = "images__image"
 
 
 @admin.register(Image)
