@@ -10,7 +10,6 @@ def get_html_preview(image):
     return format_html(
         "<img src='{url}' style='max-height: 200px; max-width: 200px'>",
         url=image.image.url,
-        height=max,
     )
 
 
